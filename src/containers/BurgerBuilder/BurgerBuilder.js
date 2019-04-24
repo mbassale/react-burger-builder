@@ -117,8 +117,8 @@ class BurgerBuilder extends Component {
                                          purchaseContinued={this.purchaseContinueHandler}
                                          purchaseCancelled={this.purchaseCancelHandler}/>;
             burger = [
-                <Burger ingredients={this.state.ingredients}/>,
-                <BuildControls ingredientAdded={this.addIngredientHandler}
+                <Burger key="burger" ingredients={this.state.ingredients}/>,
+                <BuildControls key="buildControls" ingredientAdded={this.addIngredientHandler}
                                ingredientRemoved={this.removeIngredientHandler}
                                disabled={disabledInfo}
                                puchasable={this.state.purchasable}
