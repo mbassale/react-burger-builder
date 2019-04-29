@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from '../../../axios-orders';
 import Button from '../../../components/UI/Button/Button';
+import Spinner from '../../../components/UI/Spinner/Spinner';
 import styles from './ContactData.module.css';
 
 class ContactData extends Component {
@@ -33,22 +34,32 @@ class ContactData extends Component {
         };
         axios.post('/orders.json', order).then(response => {
             console.log(response);
+            this.setState({loading: false});
+            this.props.history.push('/');
         }).catch(error => {
             console.log(error);
-        }).finally(() => this.setState({loading: false}));
+            this.setState({loading: false});
+        });
     };
 
     render() {
+        let form = (
+            <form>
+                <input className={styles.Input} type="text" name="name" placeholder="Your name"/>
+                <input className={styles.Input} type="email" name="email" placeholder="Your email"/>
+                <input className={styles.Input} type="text" name="street" placeholder="Street Address"/>
+                <input className={styles.Input} type="text" name="postalCode" placeholder="Postal Code"/>
+                <Button btnType="Success" clicked={this.orderHandler}>Order</Button>
+            </form>
+        );
+        if (this.state.loading) {
+            form = <Spinner />;
+        }
+
         return (
             <div className={styles.ContactData}>
                 <h4>Entry Your Contact Data</h4>
-                <form>
-                    <input className={styles.Input} type="text" name="name" placeholder="Your name"/>
-                    <input className={styles.Input} type="email" name="email" placeholder="Your email"/>
-                    <input className={styles.Input} type="text" name="street" placeholder="Street Address"/>
-                    <input className={styles.Input} type="text" name="postalCode" placeholder="Postal Code"/>
-                    <Button btnType="Success" clicked={this.orderHandler}>Order</Button>
-                </form>
+                {form}
             </div>
         );
     }
